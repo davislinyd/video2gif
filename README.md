@@ -102,3 +102,64 @@ video2gif <input_video_path> [output_gif_path] [options]
    ```bash
    video2gif input.mp4 clip.gif --start 10 --duration 5 -y
    ```
+
+---
+
+## MCP & HTTP Server Mode
+
+We provide an integrated server entry point at `mcp/server.py` that supports both stdio-based **MCP server mode** and FastAPI-based **HTTP API server mode**.
+
+### 1. Install Server Dependencies
+
+```bash
+pip install -r mcp/requirements.txt
+```
+
+### 2. Run as MCP Server
+
+To use this with AI clients like Claude Code or Cursor, register the server automatically:
+
+```bash
+python3 scripts/register_mcp.py
+```
+
+This will register the server to:
+- Claude CLI config (`~/.config/claude/mcp.json`)
+- Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json`)
+
+To start it manually in stdio mode:
+```bash
+python3 mcp/server.py --mcp
+```
+
+### 3. Run as HTTP API Server (FastAPI)
+
+Start the local API microservice:
+
+```bash
+python3 mcp/server.py --http --port 8000
+```
+
+#### API Endpoint: `POST /convert`
+
+The HTTP endpoint receives a JSON payload specifying local file paths and conversion parameters.
+
+**Example request:**
+```bash
+curl -X POST http://127.0.0.1:8000/convert \
+  -H "Content-Type: application/json" \
+  -d '{
+    "input_path": "/Users/lindav/git/video2gif/input.mov",
+    "width": 480,
+    "fps": 10,
+    "overwrite": true
+  }'
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "message": "Successfully converted to /Users/lindav/git/video2gif/input.gif"
+}
+```
