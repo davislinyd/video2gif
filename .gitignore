@@ -1,0 +1,15 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Test files & reports
+test_*.gif
+test_report.md
+*.mov
+*.mp4
+
+# System files
+.DS_Store
+
+# Local AI session logs & state
+.ai/
