@@ -3,6 +3,18 @@ set -e
 
 echo "=== video2gif Skill Installer ==="
 
+# Check if we are running in the repo directory. If not, clone the repo into a temp directory and run from there.
+if [ ! -f "scripts/video2gif.py" ] || [ ! -f "SKILL.md" ]; then
+    echo "Running from remote script. Downloading repository to complete installation..."
+    if ! command -v git &> /dev/null; then
+        echo "Error: git is required to download the installer."
+        exit 1
+    fi
+    TMP_DIR=$(mktemp -d -t video2gif-installer-XXXXXX)
+    git clone --depth 1 https://github.com/davislinyd/video2gif.git "$TMP_DIR"
+    cd "$TMP_DIR"
+fi
+
 # 1. Detect OS and install system dependencies (ffmpeg, gifsicle)
 OS="$(uname -s)"
 case "${OS}" in

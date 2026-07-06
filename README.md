@@ -15,7 +15,17 @@ This project is packaged as a **Global Skill / CLI Tool** that supports direct u
 
 We provide a universal installer script that automatically installs system dependencies (`ffmpeg` and `gifsicle`) and registers the tool for system terminal, Antigravity, Claude, and Codex.
 
-To install, simply run:
+### One-liner Installation (Direct from GitHub)
+
+You can copy and run this command directly in your terminal:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/davislinyd/video2gif/main/install.sh | bash
+```
+
+### Manual Installation (From Local Repository)
+
+If you have already cloned the repository:
 
 ```bash
 chmod +x install.sh
