@@ -108,7 +108,11 @@ try:
     from pydantic import BaseModel, Field
     from typing import Optional
 
-    app = FastAPI(title="video2gif API Server", description="HTTP API for converting video to GIF")
+    app = FastAPI(
+        title="video2gif API Server",
+        description="HTTP API & MCP Server for converting video to GIF",
+        lifespan=mcp.lifespan if mcp else None
+    )
 
     class ConvertRequest(BaseModel):
         input_path: str = Field(..., description="Path to the input video file")
@@ -139,6 +143,9 @@ try:
         if code != 0:
             raise HTTPException(status_code=400, detail=msg)
         return {"status": "success", "message": msg}
+
+    if mcp is not None:
+        app.mount("/video2gif/mcp", mcp.streamable_http_app())
 except ImportError:
     app = None
 
@@ -151,7 +158,7 @@ def main():
     group.add_argument("--mcp", action="store_true", help="Run in Stdio MCP mode")
     group.add_argument("--http", action="store_true", help="Run in HTTP API mode")
     parser.add_argument("--host", default="127.0.0.1", help="HTTP server host (default: 127.0.0.1)")
-    parser.add_argument("--port", type=int, default=8000, help="HTTP server port (default: 8000)")
+    parser.add_argument("--port", type=int, default=9002, help="HTTP server port (default: 9002)")
     
     args = parser.parse_args()
     

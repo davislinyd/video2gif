@@ -132,21 +132,21 @@ To start it manually in stdio mode:
 python3 mcp/server.py --mcp
 ```
 
-### 3. Run as HTTP API Server (FastAPI)
+### 3. Run as HTTP API & MCP Server (FastAPI)
 
-Start the local API microservice:
+Start the local API & MCP service on port 9002:
 
 ```bash
-python3 mcp/server.py --http --port 8000
+python3 mcp/server.py --http --port 9002
 ```
 
-#### API Endpoint: `POST /convert`
+#### A. HTTP API Endpoint: `POST /convert`
 
 The HTTP endpoint receives a JSON payload specifying local file paths and conversion parameters.
 
 **Example request:**
 ```bash
-curl -X POST http://127.0.0.1:8000/convert \
+curl -X POST http://127.0.0.1:9002/convert \
   -H "Content-Type: application/json" \
   -d '{
     "input_path": "/Users/lindav/git/video2gif/input.mov",
@@ -163,3 +163,9 @@ curl -X POST http://127.0.0.1:8000/convert \
   "message": "Successfully converted to /Users/lindav/git/video2gif/input.gif"
 }
 ```
+
+#### B. HTTP MCP Endpoint (Streamable HTTP)
+
+The MCP server is also mounted onto this server. Client applications can connect using Streamable HTTP (via SSE) at:
+
+- **Endpoint URL**: `http://127.0.0.1:9002/video2gif/mcp`
