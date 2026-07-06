@@ -40,16 +40,26 @@ chmod +x install.sh
 
 ## Agent Integration
 
-### 1. Antigravity (agy)
-The installer script automatically copies [SKILL.md](file:///Users/lindav/git/video2gif/SKILL.md) and the conversion script into the global Antigravity skills directory (`~/.gemini/antigravity-cli/skills/video2gif`). Once installed, you can trigger this skill directly in Antigravity chat.
+This tool is automatically registered to the default directories of major AI coding agents.
 
-### 2. Claude / Codex / General Terminal
-The installer sets up a wrapper binary in `~/.local/bin/video2gif` pointing to the script. Make sure `~/.local/bin` is in your terminal's `PATH`:
+### 1. Antigravity (agy)
+The installer script registers this as a global skill at `~/.gemini/antigravity-cli/skills/video2gif`. You can trigger the skill directly in Antigravity chat using `/video2gif` or simply describing what you want to convert.
+
+### 2. Claude Code
+The installer creates a custom slash command at `~/.claude/commands/video2gif.md`.
+- You can now execute `/video2gif` inside the Claude Code CLI.
+- Claude Code will automatically run the underlying CLI command with correct arguments.
+
+### 3. Codex / Agents
+The installer registers the skill globally at both `~/.agents/skills/video2gif` and `~/.codex/skills/video2gif` for backward compatibility. This allows Codex to discover it during task planning.
+
+### 4. General Terminal CLI
+A wrapper script is installed at `~/.local/bin/video2gif`. Make sure to add this directory to your `PATH` (typically in `~/.bashrc` or `~/.zshrc`):
 
 ```bash
 export PATH="$HOME/.local/bin:$PATH"
 ```
-Once configured, you or any coding agent (like Claude Code) can invoke it natively:
+Once configured, you or any coding agent can run it natively:
 ```bash
 video2gif input.mov output.gif --width 480 --fps 10
 ```
