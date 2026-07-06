@@ -59,7 +59,28 @@ cp SKILL.md "${AGY_SKILL_DIR}/"
 cp scripts/video2gif.py "${AGY_SKILL_DIR}/scripts/"
 echo "Antigravity skill installed at: ${AGY_SKILL_DIR}"
 
-# 3. Install as CLI tool for Claude, Codex, and general shell
+# 3. Install to Codex / Agents Global Skill Directories
+echo "Installing for Codex / Agents..."
+CODEX_SKILL_DIR1="${HOME}/.agents/skills/video2gif"
+CODEX_SKILL_DIR2="${HOME}/.codex/skills/video2gif"
+
+mkdir -p "${CODEX_SKILL_DIR1}/scripts"
+cp SKILL.md "${CODEX_SKILL_DIR1}/"
+cp scripts/video2gif.py "${CODEX_SKILL_DIR1}/scripts/"
+
+mkdir -p "${CODEX_SKILL_DIR2}/scripts"
+cp SKILL.md "${CODEX_SKILL_DIR2}/"
+cp scripts/video2gif.py "${CODEX_SKILL_DIR2}/scripts/"
+echo "Codex / Agents skill installed."
+
+# 4. Install to Claude Code Custom Commands Directory
+echo "Installing for Claude Code..."
+CLAUDE_COMMANDS_DIR="${HOME}/.claude/commands"
+mkdir -p "${CLAUDE_COMMANDS_DIR}"
+cp SKILL.md "${CLAUDE_COMMANDS_DIR}/video2gif.md"
+echo "Claude Code custom command installed at: ${CLAUDE_COMMANDS_DIR}/video2gif.md"
+
+# 5. Install as CLI tool for Claude, Codex, and general shell
 echo "Installing CLI wrapper for Claude, Codex, and system terminal..."
 INSTALL_BIN_DIR="${HOME}/.local/bin"
 INSTALL_SHARE_DIR="${HOME}/.local/share/video2gif"
