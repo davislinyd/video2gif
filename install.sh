@@ -85,8 +85,9 @@ echo "Installing CLI wrapper for Claude, Codex, and system terminal..."
 INSTALL_BIN_DIR="${HOME}/.local/bin"
 INSTALL_SHARE_DIR="${HOME}/.local/share/video2gif"
 
-mkdir -p "${INSTALL_SHARE_DIR}"
+mkdir -p "${INSTALL_SHARE_DIR}/mcp"
 cp scripts/video2gif.py "${INSTALL_SHARE_DIR}/"
+cp mcp/server.py "${INSTALL_SHARE_DIR}/mcp/"
 chmod +x "${INSTALL_SHARE_DIR}/video2gif.py"
 
 mkdir -p "${INSTALL_BIN_DIR}"
@@ -100,4 +101,25 @@ echo "CLI tool installed at: ${INSTALL_BIN_DIR}/video2gif"
 echo "Make sure ${INSTALL_BIN_DIR} is in your PATH. If not, add this to your ~/.bashrc or ~/.zshrc:"
 echo "  export PATH=\"\$HOME/.local/bin:\$PATH\""
 echo "================================="
+
+# 6. Optional Python dependencies and MCP server registration
+echo ""
+echo "=== MCP & HTTP Server Support ==="
+if [ -t 0 ]; then
+    read -p "Would you like to install Python server dependencies (FastAPI, mcp) and register the MCP server? [y/N]: " -n 1 -r
+    echo ""
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "Installing Python dependencies..."
+        python3 -m pip install -r mcp/requirements.txt
+        python3 scripts/register_mcp.py
+    else
+        echo "Skipped MCP/HTTP server dependencies installation."
+    fi
+else
+    echo "Piped installation detected. To set up the MCP/HTTP server:"
+    echo "  1. Run: pip install -r mcp/requirements.txt"
+    echo "  2. Run: python3 scripts/register_mcp.py"
+fi
+
+echo ""
 echo "Installation complete!"
